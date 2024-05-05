@@ -6,5 +6,29 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // Change code below this line
+let galleryContainer = document.querySelector('ul.gallery');
 
-console.log(galleryItems);
+const photosMarkup = createGalleryItem(galleryItems);
+
+function createGalleryItem(array) {
+  return array
+    .map(({ preview, original, description }) => {
+      return `<a class="gallery__item" href="${original}">
+    <img
+      class="gallery__image"
+      src="${preview}"
+      alt="${description}"
+    />
+  </a>`;
+    })
+    .join('');
+}
+
+galleryContainer.insertAdjacentHTML('beforeend', photosMarkup);
+
+const galleryHander = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionsDelay: 250,
+});
+
+galleryHander.on('show.SimpleLightbox');
